@@ -10,7 +10,12 @@ LDFLAGS := -ldflags='-X "main.Version=$(VERSION)"'
 test:
 	GO111MODULE=on go test -mod=vendor -v ./...
 
-all: dist/aws-okta-$(VERSION)-darwin-amd64 dist/aws-okta-$(VERSION)-linux-amd64 dist/aws-okta-$(VERSION)-linux-arm64
+all: depend dist/aws-okta-$(VERSION)-darwin-amd64 dist/aws-okta-$(VERSION)-linux-amd64 dist/aws-okta-$(VERSION)-linux-arm64
+
+depend:
+	@echo "Updating go mods"
+	go get -u golang.org/x/sys
+	go mod vendor
 
 clean:
 	rm -rf ./dist
